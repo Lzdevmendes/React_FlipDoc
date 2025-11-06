@@ -1,4 +1,4 @@
-import { use, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 export function usePolling(fn: () => Promise<any> | void, intervalMs = 2000, active = true) {
   const timerRef = useRef<number | null>(null)
