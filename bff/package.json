@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run src/server.ts",
-    "start": "npm run src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc"
   },
   "dependencies": {
     "express": "^4.21.2",
@@ -17,6 +18,9 @@
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/multer": "^2.0.0",
-    "@types/uuid": "^10.0.0"
+    "@types/node": "^22.10.5",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
   }
 }

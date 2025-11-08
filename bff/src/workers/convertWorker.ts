@@ -4,7 +4,6 @@ import path from 'path'
 import { redis } from '../redis/client'
 import pLimit from 'p-limit'
 
-// Configurações gerais
 const CONCURRENCY = 3            // quantos jobs ao mesmo tempo
 const MAX_RETRIES = 3            // quantas tentativas por job
 const QUEUE_KEY = 'convert:queue'
@@ -25,7 +24,6 @@ interface Job {
   error?: string
 }
 
-// Função para processar uma conversão
 async function runConversion(job: Job): Promise<void> {
   const outdir = path.join(__dirname, '..', '..', 'storage')
   if (!fs.existsSync(outdir)) fs.mkdirSync(outdir, { recursive: true })
@@ -77,12 +75,10 @@ async function runConversion(job: Job): Promise<void> {
   }
 }
 
-// Função principal: loop infinito lendo fila Redis
 async function listenQueue() {
   console.log('🚀 Worker de conversão iniciado...')
   while (true) {
     try {
-      // BRPOP bloqueia até ter um item novo na fila
       const result = await redis.brpop(QUEUE_KEY, 0)
       if (!result) continue
 
@@ -90,7 +86,6 @@ async function listenQueue() {
       const job: Job = JSON.parse(jobStr)
       await redis.hset(`job:${job.id}`, 'status', 'processing')
 
-      // Limita a concorrência
       limit(() => runConversion(job)).catch(console.error)
     } catch (err) {
       console.error('Erro no worker:', err)
