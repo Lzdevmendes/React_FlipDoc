@@ -7,11 +7,16 @@
     "start": "npm run src/server.ts"
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.21.2",
+    "ioredis": "^5.8.2",
     "multer": "^1.4.5-lts.1",
+    "p-limit": "^7.2.0",
     "pg": "^8.11.0",
-    "ioredis": "^5.3.2",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/multer": "^2.0.0",
+    "@types/uuid": "^10.0.0"
   }
 }
-
