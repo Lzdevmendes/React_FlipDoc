@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  bff:
+    build: ../bff
+    ports:
+      - '4000:4000'
+    volumes:
+      - ../bff:/app
+      - uploads:/app/uploads
+      - storage:/app/storage
+    depends_on:
+      - redis
+      - db
+  frontend:
+    build: ../frontend
+    ports:
+      - '5173:5173'
+    volumes:
+      - ../frontend:/app
+    depends_on:
+      - bff
+  redis:
+    image: redis:7
+    ports:
+      - '6379:6379'
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: docswitcher
+    ports:
+      - '5432:5432'
+volumes:
+  uploads:
+  storage:

@@ -1,0 +1,39 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  FRONTEND_DIR: 'frontend'
+  BFF_DIR: 'bff'
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildAndTest
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.x'
+    - script: |
+        cd $(FRONTEND_DIR)
+        npm ci
+        npm run build
+      displayName: 'Build frontend'
+    - script: |
+        cd $(BFF_DIR)
+        npm ci
+      displayName: 'Install bff deps'
+
+- stage: Deploy
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - job: Deploy
+    steps:
+    - script: echo 'Aqui você colocaria os passos de build da imagem Docker e push para container registry, e em seguida deploy no Azure App Service / AKS.'
+      displayName: 'Deploy placeholder'
