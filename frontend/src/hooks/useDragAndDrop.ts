@@ -18,7 +18,7 @@ export function useDragAndDrop() {
     }
   
     el.addEventListener('dragover', onDragOver)
-    el.addEventListener('dragover', onDragLeave)
+    el.addEventListener('dragleave', onDragLeave)
     el.addEventListener('drop', onDrop)
 
     return () => {
